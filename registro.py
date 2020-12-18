@@ -133,31 +133,9 @@ def actualizar():
 
 	miCursor=miConexion.cursor()
 
-	datos=('''
-		miPlaca.get(),
-		miFecha.get(),
-		miMarca.get(),
-		miAño.get(),
-		miColor.get(),
-		miTipo.get(),
-		miNombre.get(),
-		miCedula.get(),
-		miDestinoInicial.get(),
-		miDestinoFinal.get(),
-		miCombustible.get(),
-		miMontoCombustible.get(),
-		miDestino.get(),
-		miViatico.get(),
-		miGastos.get(),
-		miKilometrajeInicial.get(),
-		miKilometrajeFinal.get(),
-		textoComentario.get("1.0", END)
-		''')
-
-	
-	miCursor.execute("UPDATE DATOSVEHICULOS SET PLACA=?,AÑO=?,MARCA=?,FECHA=?,COLOR=?,TIPO=?,NOMBRE=?,CEDULA=?,DESTINOINICIAL=?,DESTINOFINAL=?,COMBUSTIBLE=?,MONTOCOMBUSTIBLE=?,VIATICO=?,GASTOS=?,KILOMETRAJEINICIAL=?,KILOMETRAJEFINAL=?,COMENTARIO=?" + 
-		"WHERE ID=" + miId.get(),(datos))
-	
+	datos=miPlaca.get(),miFecha.get(),miMarca.get(),miAño.get(),miColor.get(),miTipo.get(),miNombre.get(),miCedula.get(),miDestinoInicial.get(),miDestinoFinal.get(),miCombustible.get(),miMontoCombustible.get(),miViatico.get(),miGastos.get(),miKilometrajeInicial.get(),miKilometrajeFinal.get(),textoComentario.get("1.0", END)
+		
+	miCursor.execute("UPDATE DATOSVEHICULOS SET PLACA=?,AÑO=?,MARCA=?,FECHA=?,COLOR=?,TIPO=?,NOMBRE=?,CEDULA=?,DESTINOINICIAL=?,DESTINOFINAL=?,COMBUSTIBLE=?,MONTOCOMBUSTIBLE=?,VIATICO=?,GASTOS=?,KILOMETRAJEINICIAL=?,KILOMETRAJEFINAL=?,COMENTARIO=?" + "WHERE ID=" + miId.get(),(datos))
 	
 	miConexion.commit()
 
