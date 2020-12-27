@@ -26,12 +26,14 @@ def conexionBBDD():
 			TIPO VARCHAR(50),
 			NOMBRE VARCHAR(50),
 			CEDULA NUMERIC(8),
-			DESTINOINICIAL VARCHAR(50),
-			DESTINOFINAL VARCHAR(50),
+			DESTINO VARCHAR(20),
+			RUTA_INICIAL VARCHAR(20),
+			RUTA_REGRESO VARCHAR(20),
 			COMBUSTIBLE REAL(5),
 			MONTOCOMBUSTIBLE REAL(5),
 			VIATICO REAL(10),
 			GASTOS REAL(10),
+			MONTO_PEAJE REAL(10),
 			KILOMETRAJEINICIAL NUMERIC(20),
 			KILOMETRAJEFINAL NUMERIC(20),
 			COMENTARIO VARCHAR (100))
@@ -67,9 +69,11 @@ def limpiarCampos():
 
 	miCedula.set("")
 
-	miDestinoInicial.set("")
+	miDestino.set("")
 
-	miDestinoFinal.set("")
+	miRuta_inicial.set("")
+
+	miRuta_Regreso.set("")
 
 	miCombustible.set("")
 
@@ -78,6 +82,8 @@ def limpiarCampos():
 	miViatico.set("")
 
 	miGastos.set("")
+
+	miMontoPeaje.set("")
 
 	miKilometrajeInicial.set("")
 
@@ -90,9 +96,9 @@ def crear():
 
 	miCursor=miConexion.cursor()
 
-	datos=miPlaca.get(),miFecha.get(),miMarca.get(),miAño.get(),miColor.get(),miTipo.get(),miNombre.get(),miCedula.get(),miDestinoInicial.get(),miDestinoFinal.get(),miCombustible.get(),miMontoCombustible.get(),miViatico.get(),miGastos.get(),miKilometrajeInicial.get(),miKilometrajeFinal.get(),textoComentario.get("1.0", END)
+	datos=miPlaca.get(),miFecha.get(),miMarca.get(),miAño.get(),miColor.get(),miTipo.get(),miNombre.get(),miCedula.get(),miDestino.get(),miRuta_inicial.get(), miRuta_Regreso.get(),miCombustible.get(),miMontoCombustible.get(),miViatico.get(),miGastos.get(), miMontoPeaje.get(),miKilometrajeInicial.get(),miKilometrajeFinal.get(),textoComentario.get("1.0", END)
 	
-	miCursor.execute("INSERT INTO DATOSVEHICULOS VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(datos))
+	miCursor.execute("INSERT INTO DATOSVEHICULOS VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(datos))
 
 	miConexion.commit()
 
@@ -116,15 +122,17 @@ def leer():
 		miTipo.set(usuario[6])
 		miNombre.set(usuario[7])
 		miCedula.set(usuario[8])
-		miDestinoInicial.set(usuario[9])
-		miDestinoFinal.set(usuario[10])
-		miCombustible.set(usuario[11])
-		miMontoCombustible.set(usuario[12])
-		miViatico.set(usuario[13])
-		miGastos.set(usuario[14])
-		miKilometrajeInicial.set(usuario[15])
-		miKilometrajeFinal.set(usuario[16])
-		textoComentario.insert(1.0,usuario[17])
+		miDestino.set(usuario[9])
+		miRuta_inicial.set(usuario[10])
+		miRuta_Regreso.set(usuario[11])
+		miCombustible.set(usuario[12])
+		miMontoCombustible.set(usuario[13])
+		miViatico.set(usuario[14])
+		miGastos.set(usuario[15])
+		miMontoPeaje.set(usuario[16])
+		miKilometrajeInicial.set(usuario[17])
+		miKilometrajeFinal.set(usuario[18])
+		textoComentario.insert(1.0,usuario[19])
 	
 	miConexion.commit()
 
@@ -133,9 +141,9 @@ def actualizar():
 
 	miCursor=miConexion.cursor()
 
-	datos=miPlaca.get(),miFecha.get(),miMarca.get(),miAño.get(),miColor.get(),miTipo.get(),miNombre.get(),miCedula.get(),miDestinoInicial.get(),miDestinoFinal.get(),miCombustible.get(),miMontoCombustible.get(),miViatico.get(),miGastos.get(),miKilometrajeInicial.get(),miKilometrajeFinal.get(),textoComentario.get("1.0", END)
+	datos=miPlaca.get(),miFecha.get(),miMarca.get(),miAño.get(),miColor.get(),miTipo.get(),miNombre.get(),miCedula.get(),miDestino.get(),miRuta_inicial.get(),miRuta_Regreso.get(),miCombustible.get(),miMontoCombustible.get(),miViatico.get(),miGastos.get(),miMontoPeaje.get(),miKilometrajeInicial.get(),miKilometrajeFinal.get(),textoComentario.get("1.0", END)
 		
-	miCursor.execute("UPDATE DATOSVEHICULOS SET PLACA=?,AÑO=?,MARCA=?,FECHA=?,COLOR=?,TIPO=?,NOMBRE=?,CEDULA=?,DESTINOINICIAL=?,DESTINOFINAL=?,COMBUSTIBLE=?,MONTOCOMBUSTIBLE=?,VIATICO=?,GASTOS=?,KILOMETRAJEINICIAL=?,KILOMETRAJEFINAL=?,COMENTARIO=?" + "WHERE ID=" + miId.get(),(datos))
+	miCursor.execute("UPDATE DATOSVEHICULOS SET PLACA=?,AÑO=?,MARCA=?,FECHA=?,COLOR=?,TIPO=?,NOMBRE=?,CEDULA=?,DESTINO=?,RUTA_INICIAL=?,RUTA_REGRESO=?,COMBUSTIBLE=?,MONTOCOMBUSTIBLE=?,VIATICO=?,GASTOS=?,MONTO_PEAJE=?,KILOMETRAJEINICIAL=?,KILOMETRAJEFINAL=?,COMENTARIO=?" + "WHERE ID=" + miId.get(),(datos))
 	
 	miConexion.commit()
 
@@ -201,12 +209,14 @@ miColor=StringVar()
 miTipo=StringVar()
 miNombre=StringVar()
 miCedula=StringVar()
-miDestinoInicial=StringVar()
-miDestinoFinal=StringVar()
+miDestino=StringVar()
+miRuta_inicial=StringVar()
+miRuta_Regreso=StringVar()
 miCombustible=StringVar()
 miMontoCombustible=StringVar()
 miViatico=StringVar()
 miGastos=StringVar()
+miMontoPeaje=StringVar()
 miKilometrajeInicial=StringVar()
 miKilometrajeFinal=StringVar()
 
@@ -238,35 +248,41 @@ cuadroNombre.grid(row=7,column=1,padx=10,pady=10)
 cuadroCedula=Entry(miFrame,textvariable=miCedula)
 cuadroCedula.grid(row=8,column=1,padx=10,pady=10)
 
-cuadroDestinoInicial=Entry(miFrame,textvariable=miDestinoInicial)
-cuadroDestinoInicial.grid(row=9,column=1,padx=10,pady=10)
+cuadroDestino=Entry(miFrame,textvariable=miDestino)
+cuadroDestino.grid(row=9,column=1,padx=10,pady=10)
 
-cuadroDestinoFinal=Entry(miFrame,textvariable=miDestinoFinal)
-cuadroDestinoFinal.grid(row=10,column=1,padx=10,pady=10)
+cuadroRuta_inicial=Entry(miFrame,textvariable=miRuta_inicial)
+cuadroRuta_inicial.grid(row=10,column=1,padx=10,pady=10)
+
+cuadroRuta_Regreso=Entry(miFrame,textvariable=miRuta_Regreso)
+cuadroRuta_Regreso.grid(row=11,column=1,padx=10,pady=10)
 
 cuadroCombustible=Entry(miFrame,textvariable=miCombustible)
-cuadroCombustible.grid(row=11,column=1,padx=10,pady=10)
+cuadroCombustible.grid(row=12,column=1,padx=10,pady=10)
 
 cuadroMonto=Entry(miFrame,textvariable=miMontoCombustible)
-cuadroMonto.grid(row=12,column=1,padx=10,pady=10)
+cuadroMonto.grid(row=13,column=1,padx=10,pady=10)
 
 cuadroViatico=Entry(miFrame,textvariable=miViatico)
-cuadroViatico.grid(row=13,column=1,padx=10,pady=10)
+cuadroViatico.grid(row=14,column=1,padx=10,pady=10)
 
 cuadroGastos=Entry(miFrame,textvariable=miGastos)
-cuadroGastos.grid(row=14,column=1,padx=10,pady=10)
+cuadroGastos.grid(row=15,column=1,padx=10,pady=10)
+
+cuadroMontoPeaje=Entry(miFrame,textvariable=miMontoPeaje)
+cuadroMontoPeaje.grid(row=16,column=1,padx=10,pady=10)
 
 cuadroKilometrajeInicial=Entry(miFrame,textvariable=miKilometrajeInicial)
-cuadroKilometrajeInicial.grid(row=15,column=1,padx=10,pady=10)
+cuadroKilometrajeInicial.grid(row=17,column=1,padx=10,pady=10)
 
 cuadroKilometrajeFinal=Entry(miFrame,textvariable=miKilometrajeFinal)
-cuadroKilometrajeFinal.grid(row=16,column=1,padx=10,pady=10)
+cuadroKilometrajeFinal.grid(row=18,column=1,padx=10,pady=10)
 
 textoComentario=Text(miFrame,width=20,height=5)
-textoComentario.grid(row=17,column=1,padx=10,pady=10)
+textoComentario.grid(row=19,column=1,padx=10,pady=10)
 
 scrollVert=Scrollbar(miFrame,command=textoComentario.yview)
-scrollVert.grid(row=17,column=2,sticky="nsew")
+scrollVert.grid(row=19,column=2,sticky="nsew")
 
 textoComentario.config(yscrollcommand=scrollVert.set)
 
@@ -299,32 +315,38 @@ nombreLabel.grid(row=7,column=0,sticky="w",padx=10,pady=10)
 cedulaLabel=Label(miFrame,text="CEDULA DEL CONDUCTOR:")
 cedulaLabel.grid(row=8,column=0,sticky="w",padx=10,pady=10)
 
-destinoInicial=Label(miFrame,text="DESTINO INICIAL:")
-destinoInicial.grid(row=9,column=0,sticky="w",padx=10,pady=10)
+destinoLabel=Label(miFrame,text="DESTINO:")
+destinoLabel.grid(row=9,column=0,sticky="w",padx=10,pady=10)
 
-destinoFinal=Label(miFrame,text="DESTINO FINAL:")
-destinoFinal.grid(row=10,column=0,sticky="w",padx=10,pady=10)
+ruta_InicialLabel=Label(miFrame,text="RUTA SALIDA:")
+ruta_InicialLabel.grid(row=10,column=0,sticky="w",padx=10,pady=10)
+
+ruta_RegresoLabel=Label(miFrame,text="RUTA LLEGADA:")
+ruta_RegresoLabel.grid(row=11,column=0,sticky="w",padx=10,pady=10)
 
 combustible=Label(miFrame,text="LITROS DE COMBUSTIBLE:")
-combustible.grid(row=11,column=0,sticky="w",padx=10,pady=10)
+combustible.grid(row=12,column=0,sticky="w",padx=10,pady=10)
 
 Monto=Label(miFrame,text="MONTO DE COMBUSTIBLE EN DOLARES:")
-Monto.grid(row=12,column=0,sticky="w",padx=10,pady=10)
+Monto.grid(row=13,column=0,sticky="w",padx=10,pady=10)
 
 viaticos=Label(miFrame,text="MONTO DE VIATICOS EN DOLARES:")
-viaticos.grid(row=13,column=0,sticky="w",padx=10,pady=10)
+viaticos.grid(row=14,column=0,sticky="w",padx=10,pady=10)
 
-gastos=Label(miFrame,text="GASTOS EN DOLARES:")
-gastos.grid(row=14,column=0,sticky="w",padx=10,pady=10)
+gastos=Label(miFrame,text="MONTO DE CALETEO EN DOLARES:")
+gastos.grid(row=15,column=0,sticky="w",padx=10,pady=10)
+
+montoPeaje=Label(miFrame,text="MONTO DE PEAJES EN DOLARES:")
+montoPeaje.grid(row=16,column=0,sticky="w",padx=10,pady=10)
 
 KilometrajeInicialLabel=Label(miFrame,text="KILOMETRAJE INICIAL:")
-KilometrajeInicialLabel.grid(row=15,column=0,sticky="w",padx=10,pady=10)
+KilometrajeInicialLabel.grid(row=17,column=0,sticky="w",padx=10,pady=10)
 
 KilometrajeFinalLabel=Label(miFrame,text="KILOMETRAJE FINAL:")
-KilometrajeFinalLabel.grid(row=16,column=0,sticky="w",padx=10,pady=10)
+KilometrajeFinalLabel.grid(row=18,column=0,sticky="w",padx=10,pady=10)
 
 comentarioLabel=Label(miFrame,text="COMENTARIOS:")
-comentarioLabel.grid(row=17,column=0,sticky="w",padx=10,pady=10)
+comentarioLabel.grid(row=19,column=0,sticky="w",padx=10,pady=10)
 
 
 #--------------------botones inferior----------
